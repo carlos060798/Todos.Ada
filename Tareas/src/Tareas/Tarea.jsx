@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import React from "react";
 
 
-function TareaItem({tarea}) {
-  const { id, task,estado }=tarea
 
+function TareaItem({tarea, toggleTodo}) {
+  const { id, task,completed }=tarea
+const handleTodoClick=()=>{
+  toggleTodo(id)
+  console.log("click")
+}
   return (
 
-    <li className="list-group-item">{task}</li>
+    <li className="list-group-item" ><input type="checkbox"  className='mx-2' checked={completed} onChange={handleTodoClick}/>{task}</li>
   
   )
 }
 
-export default TareaItem
+export default TareaItem 
