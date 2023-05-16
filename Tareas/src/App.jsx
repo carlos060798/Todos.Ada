@@ -1,12 +1,15 @@
-import React ,{ useState,useRef } from "react";
+import React ,{ useState,useRef,useEffect } from "react";
 import "./App.css";
 //generar id aleatorio
 import { v4 as ID} from 'uuid'
 import TareasList from "./Tareas/Tareas";
+
 function App() {
-  //use state para guardar valores y actulizar recibe valor   y metodo setdeontener nuevo valor a renderizar
+//use state para guardar valores y actulizar recibe valor   y metodo setdeontener nuevo valor a renderizar
   const [tareas, setTareas] = useState([]);
-  const Tarearef = useRef();
+  const [pendiente, setPendiente] = useState(0); // Estado pendiente inicializado en 0
+  const Tarearef = useRef(); 
+
 
   function handleTareaADD() {
     const task = Tarearef.current.value;
@@ -38,11 +41,8 @@ function App() {
     const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
     setPendiente(pendiente);
   };
-
-  const pendiente = tareas.filter((tarea) => !tarea.completed).length;
-
-  console.log(pendiente);
-
+  
+ 
   return (
     <>
       <div className="container">
