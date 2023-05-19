@@ -2,6 +2,8 @@ import React ,{ useState,useRef,useEffect } from "react";
 import "./App.css";
 //generar id aleatorio
 import { v4 as ID} from 'uuid'
+import swal from 'sweetalert';
+
 import TareasList from "./Tareas/Tareas";
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
     Tarearef.current.value = null;
      // verificar y actulizar las tareas pendienrtes
     const pendiente = newTareas.filter((tarea) => !tarea.completed).length; 
+    swal("Felicitaciones", "Agregaste una nueva Tarea", "success")
     setPendiente(pendiente);
   }
 
@@ -40,6 +43,29 @@ function App() {
      // verificar y actulizar las tareas pendienrtes
     const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
     setPendiente(pendiente);
+    swal
+({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.
+then
+((willDelete) => {
+  if (willDelete) {
+    
+swal
+("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    
+swal
+("Your imaginary file is safe!");
+  }
+});
   };
   
  
