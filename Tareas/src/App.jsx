@@ -45,20 +45,21 @@ function App() {
  
   return (
     <>
-      <div className="container">
-        <h1>Lista de Tareas</h1>
+      <div className="container bg-light">
+        <h1 className="fw-bold text-primary">List Todo</h1>
         <div className="mb-3 d-flex">
-          <input ref={Tarearef} className="form-control inputWith" type="text" placeholder="nueva Tarea" />
+          <input ref={Tarearef} className="form-control inputWith" type="text" placeholder="New todo" />
           <button className="btn btn-success mx-2" onClick={handleTareaADD}>
             <i className="bi bi-plus-circle"></i>
           </button>
-          <button className="btn btn-danger mx-2" onClick={handleTareaDelete}>
-            <i className="bi bi-x-circle"></i>
-          </button>
+          
         </div>
         <TareasList tareas={tareas} toggleTodo={toggleTodo} />
-        <div> faltan <span className="text-bold">{pendiente}</span>tareas por completar</div>
-      </div>
+      </div> 
+      <section className="container bg-light mt-5 d-flex  justify-content-between py-4"> 
+          <articule> Faltan <span className="fw-bold mx-1 text-primary">{pendiente}</span>tareas por completar</articule>
+          <button className="btn btn-danger mx-2 text-ligth" onClick={handleTareaDelete}>Clear All</button>
+          </section>
     </>
   );
  
