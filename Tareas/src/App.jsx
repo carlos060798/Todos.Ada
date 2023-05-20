@@ -56,7 +56,7 @@ function App() {
     todo.completed = !todo.completed; // cambia el estado de la  tarea dependiendo del valor 
     setTareas(newTareas);
      // verificar y actulizar las tareas pendientes
-    const pendiente = newTodos.filter((tarea) => !tarea.completed).length; // cambia el valor de pendiente  dependiendo del check de la tara
+    const pendiente = newTareas.filter((tarea) => !tarea.completed).length; // cambia el valor de pendiente  dependiendo del check de la tara
     guardarTareas(newTareas);
     setPendiente(pendiente); // actyaliza el valor del contador de pendites
    
