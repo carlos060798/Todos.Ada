@@ -3,8 +3,8 @@ import React, { useRef } from "react";
 import "./tarea.css";
 
 function TareaItem({tarea, toggleTodo,deleteTarea }) {
-  const { id, task, completed } = tarea;
-  const liItem = useRef();
+  const { id, task, completed } = tarea;  // desctructuracion del objeto tareas
+  const liItem = useRef();  
   const handleTodoClick = () => {
     toggleTodo(id);
   //  liItem.classList.add("item");
