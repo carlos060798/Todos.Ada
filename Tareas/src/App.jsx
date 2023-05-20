@@ -38,34 +38,13 @@ function App() {
   };
 
   const handleTareaDelete = () => {
-    const newTareas = tareas.filter((tarea) => !tarea.completed);
+    const newTareas = tareas.filter((tarea) => tarea.completed);
     setTareas(newTareas);
      // verificar y actulizar las tareas pendienrtes
-    const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
+    const pendiente = newTareas.filter((tarea) => tarea.completed).length;
+    swal("Tareas Eliminadas", "Eliminaste las  Tareas de la lista", "error")
     setPendiente(pendiente);
-    swal
-({
-  title: "Are you sure?",
-  text: "Once deleted, you will not be able to recover this imaginary file!",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.
-then
-((willDelete) => {
-  if (willDelete) {
     
-swal
-("Poof! Your imaginary file has been deleted!", {
-      icon: "success",
-    });
-  } else {
-    
-swal
-("Your imaginary file is safe!");
-  }
-});
   };
   
    const  deleteTarea=(id) => {
@@ -74,7 +53,7 @@ swal
    setTareas(newtareas);
    const pendiente = newtareas.filter((tarea) => tarea.id).length;
     setPendiente(pendiente);
-   console.log(newtareas)
+    swal(" Tarea Eliminada", "Eliminaste  la  Tarea seleccionada", "error")
    };
   return (
     <>
