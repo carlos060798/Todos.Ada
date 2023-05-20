@@ -1,57 +1,87 @@
+//importacion de dependencias
 import React ,{ useState,useRef,useEffect } from "react";
 import "./App.css";
 //generar id aleatorio
 import { v4 as ID} from 'uuid'
 import swal from 'sweetalert';
+// importacion de componentes
+import TareasList from "./Tareas/Tareas"; 
+//variables  globales 
 
-import TareasList from "./Tareas/Tareas";
+const localStorageKey= "Tareas"; // valor de variable del localStorage
 
 function App() {
 //use state para guardar valores y actulizar recibe valor   y metodo setdeontener nuevo valor a renderizar
-  const [tareas, setTareas] = useState([]);
-  const [pendiente, setPendiente] = useState(0); // Estado pendiente inicializado en 0
-  const Tarearef = useRef(); 
+  const [tareas, setTareas] = useState([]);  //estado inical del  ARRAY de tareas
+  const [pendiente, setPendiente] = useState(0); // Estado pendiente inicializado en 0 
 
+  const Tarearef = useRef(); // referencia del imput de crear tareas
 
-  function handleTareaADD() {
-    const task = Tarearef.current.value;
-    console.log(task);
-    if (task === "") return;
+  // funciones principales 
 
-    const newTareas = [...tareas, { id: ID(), task, completed: false }];
-    setTareas(newTareas);
-    Tarearef.current.value = null;
-     // verificar y actulizar las tareas pendienrtes
-    const pendiente = newTareas.filter((tarea) => !tarea.completed).length; 
-    swal("Felicitaciones", "Agregaste una nueva Tarea", "success")
-    setPendiente(pendiente);
+  function guardarTareas(tareas) { // guarda las tareas en el localstore
+    localStorage.setItem(localStorageKey, JSON.stringify(tareas));
   }
 
-  const toggleTodo = (id) => {
-    const newTodos = [...tareas];
-    const todo = newTodos.find((todo) => todo.id === id);
-    todo.completed = !todo.completed;
-    setTareas(newTodos);
+// useeffect maneja las siguinte finciones
+  useEffect(() => {
+    const storedTareas = localStorage.getItem(localStorageKey); // recupera los valores del array que almacena el localstore
+    if (storedTareas) {
+      const parsedTareas = JSON.parse(storedTareas); // lista nuavemnete los valores obtendidos
+      setTareas(parsedTareas); // referencia  los  valores obtenidos 
+      const pendiente = parsedTareas.filter((tarea) => !tarea.completed).length; // actualiza el estado de pendientes
+      setPendiente(pendiente); // actualiza pendiente con el valor obtenido del localstore
+  
+    }
+  }, []);
+// funcion de crear tarea
+  function handleTareaADD() {
+    const task = Tarearef.current.value;  //  recupera el valor del input de tarea
+    if (task === "") return; // si es vacio su valor  termina la funcion
+
+    const newTareas = [...tareas, { id: ID(), task, completed: false }];  // referencia los valores del objeto tarea
+    setTareas(newTareas); // pasa el valor del objeto tarea al array de tareas
+    Tarearef.current.value = null; // retorna a null el valor del input una vez creada la tarea para una nueva
+     // verificar y actulizar las tareas pendienrtes
+    const pendiente = newTareas.filter((tarea) => !tarea.completed).length; 
+    swal("Felicitaciones", "Agregaste una nueva Tarea", "success") // genera la alerta de  creacion
+    guardarTareas(newTareas);  // guarda la tarea nueva en el localstore
+    setPendiente(pendiente); // actualiza el valor de pendientes
+   
+  }
+  // funcion  de manejo de tareas pendientes y de contador de tareas completadas
+  const toggleTodo = (id) => { // recibe un id
+    const newTareas = [...tareas]; //genera una copia de tareas
+    const todo = newTareas.find((todo) => todo.id === id); // devuelve la tarea que se seleciona y cambia de estado a completa
+    todo.completed = !todo.completed; // cambia el estado de la  tarea dependiendo del valor 
+    setTareas(newTareas);
      // verificar y actulizar las tareas pendientes
-    const pendiente = newTodos.filter((tarea) => !tarea.completed).length;
-    setPendiente(pendiente);
+    const pendiente = newTodos.filter((tarea) => !tarea.completed).length; // cambia el valor de pendiente  dependiendo del check de la tara
+    guardarTareas(newTareas);
+    setPendiente(pendiente); // actyaliza el valor del contador de pendites
+   
   };
 
+  //   funcion de eliminar todas las tareas
   const handleTareaDelete = () => {
-    const newTareas = tareas.filter((tarea) => tarea.completed);
-    setTareas(newTareas);
+    const newTareas = tareas.filter((tarea) => tarea.completed); // seleciona todas las tareas que tenga el complete en false y las elimina
+    setTareas(newTareas); // actualiza el array de tareas  a un [] vacio
      // verificar y actulizar las tareas pendienrtes
     const pendiente = newTareas.filter((tarea) => tarea.completed).length;
     swal("Tareas Eliminadas", "Eliminaste las  Tareas de la lista", "error")
+    guardarTareas(newTareas);
     setPendiente(pendiente);
+   
     
   };
   
-   const  deleteTarea=(id) => {
+// eliminacion de tarea individual por id 
+   const  deleteTarea=(id) => { // referencia el id de  la tarea a eliminar
   
-   const   newtareas=tareas.filter(tareas => tareas.id != id);
-   setTareas(newtareas);
-   const pendiente = newtareas.filter((tarea) => tarea.id).length;
+   const   newtareas=tareas.filter(tareas => tareas.id != id); // devuelve un array con los id diferennte al que se le remite
+   setTareas(newtareas); // actualiza  el array de tareas
+   const pendiente = newtareas.filter((tarea) => tarea.id).length; // actualiza los pendientes y la nueva logitud del array
+   guardarTareas(newtareas); 
     setPendiente(pendiente);
     swal(" Tarea Eliminada", "Eliminaste  la  Tarea seleccionada", "error")
    };
