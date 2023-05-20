@@ -68,7 +68,14 @@ swal
 });
   };
   
- 
+   const  deleteTarea=(id) => {
+  
+   const   newtareas=tareas.filter(tareas => tareas.id != id);
+   setTareas(newtareas);
+   const pendiente = newtareas.filter((tarea) => tarea.id).length;
+    setPendiente(pendiente);
+   console.log(newtareas)
+   };
   return (
     <>
       <div className="container bg-light">
@@ -80,10 +87,10 @@ swal
           </button>
           
         </div>
-        <TareasList tareas={tareas} toggleTodo={toggleTodo} />
+        <TareasList tareas={tareas} toggleTodo={toggleTodo} deleteTarea={deleteTarea} />
       </div> 
       <section className="container bg-light mt-5 d-flex  justify-content-between py-4"> 
-          <articule> Faltan <span className="fw-bold mx-1 text-primary">{pendiente}</span>tareas por completar</articule>
+          <p> Faltan <span className="fw-bold mx-1 text-primary">{pendiente}</span>tareas por completar</p>
           <button className="btn btn-danger mx-2 text-ligth" onClick={handleTareaDelete}>Clear All</button>
           </section>
     </>
