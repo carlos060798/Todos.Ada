@@ -1,12 +1,11 @@
 import React from "react";
 import TareaItem from "./Tarea";
 
-function TareasList({ tareas,toggleTodo,deleteTarea }) { // recibe el array d etareas y las  funciones de cada tareas
-
+function TareasList({ tareas,toggleTodo,deleteTarea }) { 
   return (
     <>
       <ul className="list-group">
-        {tareas.map(tarea =>   // el map recorre el arrat de tareas y  lista cada  objeto de tarea del array que  encuentre
+        {tareas.map(tarea =>  
         <TareaItem key={tarea.id} tarea={tarea} toggleTodo={toggleTodo}  deleteTarea={deleteTarea}/> )}
       </ul>
     </>
