@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 import "./tarea.css";
 
-function TareaItem({tarea, toggleTodo,deleteTarea }) {
+function TareaItem({tarea, toggleTodo,deleteTarea,editarTarea}) {
   const { id, task, completed } = tarea; 
   const liItem = useRef();  
   const handleTodoClick = () => {
@@ -22,6 +22,10 @@ function TareaItem({tarea, toggleTodo,deleteTarea }) {
   const hadleTododeleteid=()=>{
     deleteTarea(id)
   }
+
+  const hadleTodoEdit=()=>{
+    editarTarea(id)
+  }
   return (
     <li className="list-group-item d-flex  justify-content-between mt-3"> 
      <p className="h5">
@@ -33,7 +37,10 @@ function TareaItem({tarea, toggleTodo,deleteTarea }) {
         onChange={handleTodoClick}
       />
       {task}{" "} </p>
-      <button className="btn btn-danger mx-2 text-ligth btn-list"  onClick={hadleTododeleteid}><i className="bi bi-x-circle"></i></button>
+       <div>
+      <button className="btn  mx-1 text-danger btn-list"  onClick={hadleTododeleteid}><i className="bi bi-x-circle"></i></button>
+      <button className="btn  text-success btn-list"  onClick={hadleTodoEdit}><i className="bi bi-pencil-square"></i></button>
+      </div>
     </li>
   );
 }
