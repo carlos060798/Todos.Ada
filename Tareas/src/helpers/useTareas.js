@@ -14,6 +14,9 @@ function useTareas() {
   const Tarearef = useRef();
  
   // funciones principales
+  const calculatePendientes = (tareas) => { // funcion de calculo de tareas pendientes
+    return tareas.filter((tarea) => !tarea.completed).length;
+  };
 
   function guardarTareas(tareas) {
     // guarda las tareas en el localstore
@@ -29,7 +32,7 @@ function useTareas() {
       const pendiente = parsedTareas.filter((tarea) => !tarea.completed).length; // actualiza el estado de pendientes
       setPendiente(pendiente); // actualiza pendiente con el valor obtenido del localstore
     }
-  }, []);
+  }, [tareas,pendiente]);
   // funcion de crear tarea
   function handleTareaADD() { 
     const task = Tarearef.current.value;
@@ -49,6 +52,7 @@ function useTareas() {
         if (result.isConfirmed) {
           setTareas(newTareas);
           guardarTareas(newTareas);
+          setPendiente(calculatePendientes(newTareas));
         }})
       
     } else {
@@ -64,7 +68,7 @@ function useTareas() {
         if (result.isConfirmed) {
           setTareas(newTareas);
           guardarTareas(newTareas);
-          setPendiente(pendiente);
+          setPendiente(calculatePendientes(newTareas));
         }
       });
     }
@@ -80,7 +84,7 @@ function useTareas() {
     setTareas(newTareas);
     const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
     guardarTareas(newTareas);
-    setPendiente(pendiente);
+    setPendiente(calculatePendientes(newTareas));
 
   };
 
@@ -98,9 +102,8 @@ function useTareas() {
       if (result.isConfirmed) {
         const newTareas = tareas.filter((tarea) => tarea.completed);
         setTareas(newTareas);
-        const pendiente = newTareas.filter((tarea) => tarea.completed).length;
+        setPendiente( calculatePendientes(newTareas));
         guardarTareas(newTareas);
-        setPendiente(pendiente);
       }
     });
   };
@@ -119,9 +122,8 @@ function useTareas() {
       if (result.isConfirmed) {
         const newtareas = tareas.filter((tareas) => tareas.id != id); // devuelve un array con los id diferennte al que se le remite
         setTareas(newtareas); // actualiza  el array de tareas
-        const pendiente = newtareas.filter((tarea) => tarea.id).length; // actualiza los pendientes y la nueva logitud del array
+        setPendiente(calculatePendientes(newtareas));
         guardarTareas(newtareas);
-        setPendiente(pendiente);
       }
     });
   };
@@ -135,9 +137,9 @@ function useTareas() {
     setEdit(true);
     const newtareas = tareas.filter((tareas) => tareas.id != id); // devuelve un array con los id diferennte al que se le remite
     setTareas(newtareas); // actualiza  el array de tareas
-    const pendiente = newtareas.filter((tarea) => tarea.id).length; // actualiza los pendientes y la nueva logitud del array
     guardarTareas(newtareas);
-    setPendiente(pendiente);
+    setPendiente(calculatePendientes(newtareas));
+    guardarTareas(newtareas);
 
   };
   
