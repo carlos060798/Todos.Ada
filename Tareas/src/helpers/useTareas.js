@@ -12,6 +12,7 @@ function useTareas() {
 
   // referencia del imput de crear tareas
   const Tarearef = useRef();
+  const descriptionRef = useRef();
  
   // funciones principales
   const calculatePendientes = (tareas) => { // funcion de calculo de tareas pendientes
@@ -36,9 +37,10 @@ function useTareas() {
   // funcion de crear tarea
   function handleTareaADD() { 
     const task = Tarearef.current.value;
+    const descripcion= descriptionRef.current.value;
     if (task === "") return;
   
-    const newTareas = [...tareas, { id: ID(), task, completed: false }];
+    const newTareas = [...tareas, { id: ID(), task,descripcion, completed: false }];
   
     if (edit) {
       Swal.fire({
@@ -152,7 +154,8 @@ function useTareas() {
     toggleTodo,
     handleTareaDelete,
     deleteTarea,
-    editarTarea 
+    editarTarea,
+    descriptionRef,
   };
 };
 

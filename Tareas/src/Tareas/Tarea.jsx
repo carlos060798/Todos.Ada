@@ -1,15 +1,15 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./tarea.css";
 
 function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
-  const { id, task, completed } = tarea;
+  const { id, task, descripcion, completed } = tarea;
   const liItem = useRef();
   const [isChecked, setIsChecked] = useState(completed);
- 
+
   useEffect(() => {
     setIsChecked(completed);
-  }, [completed]); 
-  
+  }, [completed]);
+
   const handleTodoClick = () => {
     toggleTodo(id);
     setIsChecked(!isChecked);
@@ -21,7 +21,7 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
 
     if (!checkbox.checked) {
       setCompletedStyle("text-decoration-line-through");
-    } 
+    }
   };
 
   const hadleTododeleteid = () => {
@@ -33,37 +33,37 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
   };
 
   return (
-    <li  className={`list-group-item d-flex justify-content-between mt-3 ${
-      isChecked ? "text-decoration-line-through" : ""
-    }`}>
-      <p className="h5">
-        <input
-          type="checkbox"
-          className="mx-2 btn-checkbox"
-          checked={completed}
-          onClick={handleCheckboxClick}
-          onChange={handleTodoClick}
-        />
-        {task}{" "}
-      </p>
-      <div>
-        <button
-          className="btn mx-1 text-danger btn-list"
-          onClick={hadleTododeleteid}
-        >
-          <i className="bi bi-x-circle"></i>
-        </button>
-        <button
-          className="btn text-success btn-list"
-          onClick={hadleTodoEdit}
-        >
-          <i className="bi bi-pencil-square"></i>
-        </button>
-      </div>
-    </li>
+    <div
+      className={`list-group-item  mt-3 ${
+        isChecked ? "text-decoration-line-through" : ""
+      }`}
+    >
+      <section className="d-flex justify-content-between">
+        <p className="h5">
+          <input
+            type="checkbox"
+            className="mx-2 btn-checkbox"
+            checked={completed}
+            onClick={handleCheckboxClick}
+            onChange={handleTodoClick}
+          />
+          {task}{" "}
+        </p>
+        <div>
+          <button
+            className="btn mx-1 text-danger btn-list"
+            onClick={hadleTododeleteid}
+          >
+            <i className="bi bi-x-circle"></i>
+          </button>
+          <button className="btn text-success btn-list" onClick={hadleTodoEdit}>
+            <i className="bi bi-pencil-square"></i>
+          </button>
+        </div>
+      </section>
+      <p>{descripcion}</p>
+    </div>
   );
 }
 
 export default TareaItem;
-
-
