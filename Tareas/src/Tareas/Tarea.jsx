@@ -33,6 +33,7 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
   };
 
   return (
+    <>
     <div
       className={`list-group-item  mt-3 ${
         isChecked ? "text-decoration-line-through" : ""
@@ -63,6 +64,7 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
       </section>
       <p>{descripcion}</p>
     </div>
+  </>
   );
 }
 
