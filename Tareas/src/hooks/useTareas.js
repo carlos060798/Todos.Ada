@@ -8,14 +8,16 @@ function useTareas() {
   const [tareas, setTareas] = useState([]);
   const [pendiente, setPendiente] = useState(0);
   const [edit, setEdit] = useState(false);
- 
+  const [tareaEror, setTareaError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
 
   // referencia del imput de crear tareas
   const Tarearef = useRef();
   const descriptionRef = useRef();
- 
+
   // funciones principales
-  const calculatePendientes = (tareas) => { // funcion de calculo de tareas pendientes
+  const calculatePendientes = (tareas) => {
+    // funcion de calculo de tareas pendientes
     return tareas.filter((tarea) => !tarea.completed).length;
   };
 
@@ -33,51 +35,79 @@ function useTareas() {
       const pendiente = parsedTareas.filter((tarea) => !tarea.completed).length; // actualiza el estado de pendientes
       setPendiente(pendiente); // actualiza pendiente con el valor obtenido del localstore
     }
-  }, [tareas,pendiente]);
-  // funcion de crear tarea
-  function handleTareaADD() { 
-    const task = Tarearef.current.value;
-    const descripcion= descriptionRef.current.value;
-    if (task === "") return;
-  
-    const newTareas = [...tareas, { id: ID(), task,descripcion, completed: false }];
-  
-    if (edit) {
-      Swal.fire({
-        title: "Has editado una tarea",
-        text: "¿Deseas guardar los cambios?",
-        icon: "info",
-        showCancelButton: true,
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar",
-      }).then(result => {
-        if (result.isConfirmed) {
-          setTareas(newTareas);
-          guardarTareas(newTareas);
-          setPendiente(calculatePendientes(newTareas));
-        }})
-      
+  }, []);
+
+  // funcion de validacion del formulario
+  function ValidacionFormulario() {
+    let isValid = true;
+    if (Tarearef.current.value.length < 3) {
+      setTareaError("El titulo debe tener al menos 3 caracteres");
+      isValid = false;
     } else {
-      const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
-      Swal.fire({
-        title: "Felicitaciones",
-        text: "¿Deseas agregar una nueva Tarea?",
-        icon: "success",
-        showCancelButton: true,
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          setTareas(newTareas);
-          guardarTareas(newTareas);
-          setPendiente(calculatePendientes(newTareas));
-        }
-      });
+      setTareaError("");
     }
-    Tarearef.current.value = null;
-    setEdit(false); // Reinicia el modo de edición a false
-  };
-   
+
+    if (descriptionRef.current.value === "") {
+      setDescriptionError("La descripcion  no debe estar vacia");
+      isValid = false;
+    } else {
+      setDescriptionError("");
+    }
+    return isValid;
+  }
+
+  function resetFormulario() {
+    setTareaError("");
+    setDescriptionError("");
+    Tarearef.current.value = "";
+    descriptionRef.current.value = "";
+  }
+  // funcion de crear tarea
+  function handleTareaADD() {
+    const task = Tarearef.current.value;
+    const descripcion = descriptionRef.current.value;
+    if (ValidacionFormulario()) {
+      const newTareas = [
+        ...tareas,
+        { id: ID(), task, descripcion, completed: false },
+      ];
+      if (edit) {
+        Swal.fire({
+          title: "Has editado una tarea",
+          text: "¿Deseas guardar los cambios?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setTareas(newTareas);
+            guardarTareas(newTareas);
+            setPendiente(calculatePendientes(newTareas));
+          }
+        });
+      } else {
+        const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
+        Swal.fire({
+          title: "Felicitaciones",
+          text: "¿Deseas agregar una nueva Tarea?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setTareas(newTareas);
+            guardarTareas(newTareas);
+            setPendiente(calculatePendientes(newTareas));
+          }
+        });
+      }
+
+      resetFormulario();
+    }
+  }
+
   // funcion  de manejo de tareas pendientes y de contador de tareas completadas
   const toggleTodo = (id) => {
     const newTareas = [...tareas];
@@ -87,7 +117,6 @@ function useTareas() {
     const pendiente = newTareas.filter((tarea) => !tarea.completed).length;
     guardarTareas(newTareas);
     setPendiente(calculatePendientes(newTareas));
-
   };
 
   //   funcion de eliminar todas las tareas
@@ -104,7 +133,7 @@ function useTareas() {
       if (result.isConfirmed) {
         const newTareas = tareas.filter((tarea) => tarea.completed);
         setTareas(newTareas);
-        setPendiente( calculatePendientes(newTareas));
+        setPendiente(calculatePendientes(newTareas));
         guardarTareas(newTareas);
       }
     });
@@ -134,17 +163,16 @@ function useTareas() {
 
   const editarTarea = (id) => {
     console.log("soy la tarea seleccionada");
-   const tarea = tareas.find((tarea) => tarea.id === id);
+    const tarea = tareas.find((tarea) => tarea.id === id);
     Tarearef.current.value = tarea.task;
+    descriptionRef.current.value = tarea.descripcion;
     setEdit(true);
     const newtareas = tareas.filter((tareas) => tareas.id != id); // devuelve un array con los id diferennte al que se le remite
     setTareas(newtareas); // actualiza  el array de tareas
     guardarTareas(newtareas);
     setPendiente(calculatePendientes(newtareas));
     guardarTareas(newtareas);
-
   };
-  
 
   return {
     tareas,
@@ -156,7 +184,9 @@ function useTareas() {
     deleteTarea,
     editarTarea,
     descriptionRef,
+    tareaEror,
+    descriptionError,
   };
-};
+}
 
 export default useTareas;
