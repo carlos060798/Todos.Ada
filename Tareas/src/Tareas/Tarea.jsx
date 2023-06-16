@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./tarea.css";
+import { Box, Flex, Checkbox, IconButton } from "@chakra-ui/react";
+import { CloseIcon, AddIcon } from "@chakra-ui/icons";
 
 function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
   const { id, task, descripcion, completed } = tarea;
@@ -34,7 +35,46 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
 
   return (
     <>
-    <div
+    <Box
+      className={`list-group-item  mt-3 ${
+        isChecked ? "text-decoration-line-through" : ""
+      }`}
+    >
+      <Flex justifyContent="space-between">
+        <p className="h5">
+          <Checkbox
+            mx={2}
+            isChecked={completed}
+            onClick={handleCheckboxClick}
+            onChange={handleTodoClick}
+          />
+          {task}
+        </p>
+        <Flex>
+          <IconButton
+            mx={1}
+            colorScheme="red"
+            onClick={hadleTododeleteid }
+            icon={<CloseIcon />}
+          />
+          <IconButton
+            colorScheme="green"
+            onClick={hadleTodoEdit}
+            icon={<AddIcon />}
+          />
+        </Flex>
+      </Flex>
+      <p>{descripcion}</p>
+    </Box>
+  
+  </>
+  );
+}
+
+export default TareaItem;
+
+
+   {/* <div
       className={`list-group-item  mt-3 ${
         isChecked ? "text-decoration-line-through" : ""
       }`}
@@ -58,14 +98,10 @@ function TareaItem({ tarea, toggleTodo, deleteTarea, editarTarea }) {
             <i className="bi bi-x-circle"></i>
           </button>
           <button className="btn text-success btn-list" onClick={hadleTodoEdit}>
-            <i className="bi bi-pencil-square"></i>
+          <AddIcon/>a
           </button>
+         
         </div>
       </section>
       <p>{descripcion}</p>
-    </div>
-  </>
-  );
-}
-
-export default TareaItem;
+    </div>*/}
