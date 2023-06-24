@@ -17,6 +17,7 @@ function FormTodo({ handleTareaADD,Tarearef,descriptionRef,tareaEror,description
             <Input  ref={Tarearef}
               variant="filled"
               placeholder="New todo" />
+             {tareaEror && <Box color="red.500">{tareaEror}</Box>}
           </Box>
           <Box>
             <Text textAlign="center">Task Description</Text>
@@ -24,6 +25,7 @@ function FormTodo({ handleTareaADD,Tarearef,descriptionRef,tareaEror,description
              ref={descriptionRef} 
              variant="filled"
              placeholder="New todo"/>
+             {descriptionError && <Box color="red.500">{descriptionError}</Box>}
           </Box>
           <Flex justifyContent="center" mt={4}>
             <Button colorScheme="green" onClick={handleTareaADD}>
