@@ -8,19 +8,19 @@ import About from "./paginas-inicio/About";
 function  App(){
   return (
     <Router>
-      <Box className="container" color="red.500">
-        <Flex alignItems="center" justifyContent="space-between" p={4}>
+      <Box className="container" color="blue.500" >
+        <Flex alignItems="center" justifyContent="space-between" p={4} >
           <HStack spacing={2}>
-            <CopyIcon w={6} h={15} color="red.500" />
+            <CopyIcon w={6} h={15} boxSize={8} color="blue.500" />
             <Box fontSize="xl" fontWeight="bold">
-              Your Logo
+              Task Manager
             </Box>
           </HStack>
 
           <Spacer />
           <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
             <BreadcrumbItem>
-              <RouterLink to="/" mr={4} fontSize="lg">
+              <RouterLink to="/" mr={4} fontSize="lg" fontWeight="600"> 
                 Home
               </RouterLink>
             </BreadcrumbItem>
