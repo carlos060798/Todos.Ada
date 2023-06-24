@@ -1,12 +1,38 @@
+import { Box, Text, Stack, Input, Textarea, Flex, Button } from "@chakra-ui/react";
 
-import { Box, Flex, Heading, FormControl, FormLabel, Input, Textarea, Button } from "@chakra-ui/react";
+
 function FormTodo({ handleTareaADD,Tarearef,descriptionRef,tareaEror,descriptionError}) {
   
   
 
   return (
     <>
-      <Heading as="h1" fontWeight="bold" color="blue.500">
+    <Box w={400} bg="gray.100" p={6}>
+        <Text textAlign="center" color="blue.500" fontWeight="bold" mt={4}>
+          Create List Todo
+        </Text>
+        <Stack spacing={4} mt={8}>
+          <Box>
+            <Text textAlign="center">Title Todo</Text>
+            <Input  ref={Tarearef}
+              variant="filled"
+              placeholder="New todo" />
+          </Box>
+          <Box>
+            <Text textAlign="center">Task Description</Text>
+            <Textarea
+             ref={descriptionRef} 
+             variant="filled"
+             placeholder="New todo"/>
+          </Box>
+          <Flex justifyContent="center" mt={4}>
+            <Button colorScheme="green" onClick={handleTareaADD}>
+              <i className="bi bi-plus-circle"></i>
+            </Button>
+          </Flex>
+        </Stack>
+      </Box>
+    {/*  <Heading as="h1" fontWeight="bold" color="blue.500">
         New Todo
       </Heading>
       <Flex justifyContent="center" bg="gray.100">
@@ -35,7 +61,7 @@ function FormTodo({ handleTareaADD,Tarearef,descriptionRef,tareaEror,description
             </Button>
           </Flex>
         </Box>
-      </Flex>
+      </Flex> */}
     </>
   );
 
