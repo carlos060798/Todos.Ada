@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Heading, Text,  Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -19,20 +19,12 @@ function Home() {
           Stay organized and productive
         </Text>
         <Link to="/listtask" mt={4}>
-          <ChakraLink
-            as="button"
-            to="/"
-            className="block text-center my-5 text-gray-500"
-            _hover={{ bg: "white", color: "black" }}
-            px={3}
-            py={2}
-            fontWeight="bold"
-          >
-            Get Started
-          </ChakraLink>
+        <Button colorScheme="blackAlpha" mt={4}>
+          Get Started
+        </Button>
         </Link>
       </Box>
-      <Box color="black" textAlign="center" py={3} mt={8}>
+      <Box color="blue.500" textAlign="center" py={3} mt={8}>
         <Text mb={0} fontWeight="semibold"  fontSize="xl">Task Manager &copy; 2023</Text>
       </Box>
     </>
